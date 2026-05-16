@@ -1,0 +1,55 @@
+# HeartMuLa 獨立 Conda 環境
+# 針對 RTX 5060 Ti (Blackwell GB206, CUDA 12.8) 最佳化
+#
+# 建立環境：
+#   conda env create -f environment.yml
+#
+# 啟動環境：
+#   conda activate heartmula
+#
+# 更新已存在的環境：
+#   conda env update -f environment.yml --prune
+
+name: heartmula
+
+channels:
+  - defaults
+
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+    # ── PyTorch with CUDA 12.8 (RTX 5060 Ti Blackwell support) ──────────
+    # RTX 50 系列 (Blackwell) 需要 CUDA 12.8 + PyTorch 2.7+
+    # 如果安裝失敗，請先確認 NVIDIA 驅動版本 >= 570
+    - --extra-index-url https://download.pytorch.org/whl/cu128
+    - torch==2.7.0+cu128
+    - torchaudio==2.7.0+cu128
+    - torchvision==0.22.0+cu128
+
+    # ── HeartMuLa 核心依賴 (與 pyproject.toml 一致) ──────────────────────
+    - torchtune==0.4.0
+    - torchao==0.9.0
+    - numpy==2.0.2
+    - tqdm==4.67.1
+    - traitlets==5.7.1
+    - traittypes==0.2.3
+    - transformers==4.57.0
+    - tokenizers==0.22.1
+    - ipykernel==6.17.1
+    - einops==0.8.1
+    - accelerate==1.12.0
+    - bitsandbytes==0.49.0
+    - vector-quantize-pytorch==1.27.15
+    - modelscope==1.33.0
+    - soundfile
+
+    # ── Gradio UI ────────────────────────────────────────────────────────
+    - gradio>=4.44.0
+
+    # ── LLM API 客戶端 (支援 Mistral / Groq / AI Studio) ─────────────────
+    # openai 套件通用於所有 OpenAI-compatible API
+    - openai>=1.50.0
+
+    # ── 安裝 heartlib 本體 (editable mode) ───────────────────────────────
+    - "-e ."

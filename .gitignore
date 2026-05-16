@@ -9,3 +9,5 @@ checkpoint/
 build/
 .idea/
 ckpt/
+tmp/
+.env

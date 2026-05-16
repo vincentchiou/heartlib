@@ -19,6 +19,37 @@
 </p>
 
 ---
+
+## 🆕 v0.2.0 — Gradio UI + Multi-provider LLM Integration
+
+This fork adds a **one-click Gradio web UI** that connects AI lyrics/style generation to local GPU music generation:
+
+| Feature | Detail |
+|---|---|
+| 🎵 LLM lyrics + style + instruments | Mistral AI / Groq / Google AI Studio |
+| 🔌 Zero-URL setup | API base URLs pre-configured, paste Key only |
+| 📋 Model selector | Auto-fetches available models after connecting |
+| 🖥️ Local GPU | RTX 5060 Ti 16 GB (Blackwell, CUDA 12.8) optimized |
+| 🐍 Isolated env | Dedicated conda environment (`heartmula`) |
+
+**Quick start:**
+```bash
+# 1. Create conda environment
+conda env create -f environment.yml
+conda activate heartmula
+
+# 2. Download model checkpoints
+hf download --local-dir './ckpt' 'HeartMuLa/HeartMuLaGen'
+hf download --local-dir './ckpt/HeartMuLa-oss-3B' 'HeartMuLa/HeartMuLa-oss-3B-happy-new-year'
+hf download --local-dir './ckpt/HeartCodec-oss' HeartMuLa/HeartCodec-oss-20260123
+
+# 3. Launch UI (Windows)
+run.bat
+# or: python app.py
+```
+
+---
+
 # HeartMuLa: A Family of Open Sourced Music Foundation Models
 
 HeartMuLa is a family of open sourced music foundation models including: 

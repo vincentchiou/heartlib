@@ -1,0 +1,6 @@
+# UI 與 API 整合依賴
+# 如果不使用 conda environment.yml，可單獨安裝此清單
+# pip install -r requirements-app.txt
+
+gradio>=4.44.0
+openai>=1.50.0
