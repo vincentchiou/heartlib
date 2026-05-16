@@ -184,9 +184,26 @@ def connect_aistudio(key: str):
 # LLM generation
 # ---------------------------------------------------------------------------
 
+_GENDER_TAGS = {"male", "female", "choir"}
+
+
+def _apply_gender_to_tags(tags: str, gender: str) -> str:
+    """Remove any existing gender tags and insert the user-chosen one."""
+    parts = [t.strip() for t in tags.split(",") if t.strip()]
+    parts = [t for t in parts if t.lower() not in _GENDER_TAGS]
+    gender_tag = "Male" if "男" in gender else "Female"
+    # Insert gender right after the first tag (genre position)
+    if parts:
+        parts.insert(1, gender_tag)
+    else:
+        parts = [gender_tag]
+    return ", ".join(parts)
+
+
 def generate_lyrics_and_style(
     description: str,
     model_choice: str,
+    gender: str,
 ) -> Tuple[str, str, str]:
     if not description.strip():
         return "", "", "❌ 請輸入音樂描述"
@@ -205,10 +222,12 @@ def generate_lyrics_and_style(
         result = _connected[provider_id].generate_music_content(description, model_id)
         _cfg["providers"][provider_id]["selected_model"] = model_id
         save_config(_cfg)
+        final_tags = _apply_gender_to_tags(result["tags"], gender)
+        gender_tag = "Male（男聲）" if "男" in gender else "Female（女聲）"
         return (
             result["lyrics"],
-            result["tags"],
-            f"✅ 生成完成（{PROVIDERS[provider_id]['name']} / `{model_id}`）",
+            final_tags,
+            f"✅ 生成完成（{PROVIDERS[provider_id]['name']} / `{model_id}`）｜聲音：{gender_tag}",
         )
     except Exception as exc:
         return "", "", f"❌ 生成失敗：{exc}"
@@ -546,12 +565,20 @@ def build_ui() -> gr.Blocks:
                         placeholder="AI 生成的歌詞將顯示在這裡，您可以直接修改...",
                         show_copy_button=True,
                     )
-                    tags_box = gr.Textbox(
-                        label="曲風 ＋ 樂器標籤（逗號分隔，無空格）",
-                        lines=2,
-                        placeholder="例如：pop,happy,piano,acoustic_guitar,drums,upbeat,female_vocal",
-                        show_copy_button=True,
-                    )
+                    with gr.Row():
+                        tags_box = gr.Textbox(
+                            label="曲風 ＋ 樂器標籤",
+                            lines=2,
+                            placeholder="例如：Pop, Warm, Male, Happy, Piano, Guitar",
+                            show_copy_button=True,
+                            scale=3,
+                        )
+                        gender_radio = gr.Radio(
+                            label="🎤 聲音性別",
+                            choices=["Male（男聲）", "Female（女聲）"],
+                            value="Male（男聲）",
+                            scale=1,
+                        )
 
             gr.Markdown("---")
             gr.Markdown("### 🎶 本地 GPU 生成音樂")
@@ -697,7 +724,7 @@ jazz,smooth,saxophone,bass,drums,relaxed,male_vocal
         # -- LLM: generate lyrics + style
         generate_btn.click(
             fn=generate_lyrics_and_style,
-            inputs=[description_box, model_selector],
+            inputs=[description_box, model_selector, gender_radio],
             outputs=[lyrics_box, tags_box, llm_status],
         )
 
