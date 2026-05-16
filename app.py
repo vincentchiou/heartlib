@@ -187,14 +187,24 @@ def connect_aistudio(key: str):
 _GENDER_TAGS = {"male", "female", "choir"}
 
 
+def _detect_gender_from_tags(tags: str) -> str:
+    """Read gender from LLM-generated tags and return the matching radio value."""
+    for part in tags.split(","):
+        t = part.strip().lower()
+        if t == "female":
+            return "Female（女聲）"
+        if t == "male":
+            return "Male（男聲）"
+    return "Male（男聲）"   # fallback default
+
+
 def _apply_gender_to_tags(tags: str, gender: str) -> str:
-    """Remove any existing gender tags and insert the user-chosen one."""
+    """Replace existing gender tag with the chosen one."""
     parts = [t.strip() for t in tags.split(",") if t.strip()]
     parts = [t for t in parts if t.lower() not in _GENDER_TAGS]
     gender_tag = "Male" if "男" in gender else "Female"
-    # Insert gender right after the first tag (genre position)
     if parts:
-        parts.insert(1, gender_tag)
+        parts.insert(1, gender_tag)   # keep gender right after genre
     else:
         parts = [gender_tag]
     return ", ".join(parts)
@@ -203,34 +213,44 @@ def _apply_gender_to_tags(tags: str, gender: str) -> str:
 def generate_lyrics_and_style(
     description: str,
     model_choice: str,
-    gender: str,
-) -> Tuple[str, str, str]:
+) -> Tuple[str, str, str, str]:
+    """Returns (lyrics, tags, status, gender_radio_value)."""
     if not description.strip():
-        return "", "", "❌ 請輸入音樂描述"
+        return "", "", "❌ 請輸入音樂描述", "Male（男聲）"
     if not model_choice:
-        return "", "", "❌ 請先在「API 設定」連線至少一個服務，再選擇模型"
+        return "", "", "❌ 請先在「API 設定」連線至少一個服務，再選擇模型", "Male（男聲）"
 
     try:
         provider_id, model_id = parse_model_choice(model_choice)
     except ValueError as exc:
-        return "", "", f"❌ {exc}"
+        return "", "", f"❌ {exc}", "Male（男聲）"
 
     if provider_id not in _connected:
-        return "", "", "❌ 找不到已連線的服務，請重新連線"
+        return "", "", "❌ 找不到已連線的服務，請重新連線", "Male（男聲）"
 
     try:
         result = _connected[provider_id].generate_music_content(description, model_id)
         _cfg["providers"][provider_id]["selected_model"] = model_id
         save_config(_cfg)
-        final_tags = _apply_gender_to_tags(result["tags"], gender)
-        gender_tag = "Male（男聲）" if "男" in gender else "Female（女聲）"
+
+        # Let AI decide gender; reflect it in the radio button
+        detected_gender = _detect_gender_from_tags(result["tags"])
+        gender_label = "Male（男聲）" if "Male" in detected_gender else "Female（女聲）"
         return (
             result["lyrics"],
-            final_tags,
-            f"✅ 生成完成（{PROVIDERS[provider_id]['name']} / `{model_id}`）｜聲音：{gender_tag}",
+            result["tags"],
+            f"✅ 生成完成（{PROVIDERS[provider_id]['name']} / `{model_id}`）｜AI 判斷聲音：{gender_label}",
+            detected_gender,
         )
     except Exception as exc:
-        return "", "", f"❌ 生成失敗：{exc}"
+        return "", "", f"❌ 生成失敗：{exc}", "Male（男聲）"
+
+
+def on_gender_change(tags: str, gender: str) -> str:
+    """When user manually switches the radio, sync the gender tag in the tags box."""
+    if not tags.strip():
+        return tags
+    return _apply_gender_to_tags(tags, gender)
 
 
 # ---------------------------------------------------------------------------
@@ -721,11 +741,18 @@ jazz,smooth,saxophone,bass,drums,relaxed,male_vocal
 
         refresh_btn.click(fn=_refresh, outputs=[model_selector])
 
-        # -- LLM: generate lyrics + style
+        # -- LLM: generate lyrics + style (AI also sets the gender radio)
         generate_btn.click(
             fn=generate_lyrics_and_style,
-            inputs=[description_box, model_selector, gender_radio],
-            outputs=[lyrics_box, tags_box, llm_status],
+            inputs=[description_box, model_selector],
+            outputs=[lyrics_box, tags_box, llm_status, gender_radio],
+        )
+
+        # -- Manual gender override: sync tag in tags_box immediately
+        gender_radio.change(
+            fn=on_gender_change,
+            inputs=[tags_box, gender_radio],
+            outputs=[tags_box],
         )
 
         # -- HeartMuLa: generate music
