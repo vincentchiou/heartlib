@@ -7,146 +7,161 @@
 </p>
 
 <p align="center">
-    <a href="https://heartmula.github.io/">Demo 🎶</a> &nbsp;|&nbsp; 📑 <a href="https://arxiv.org/pdf/2601.10547">Paper</a>
+    <a href="https://heartmula.github.io/">線上展示 🎶</a> &nbsp;|&nbsp; 📑 <a href="https://arxiv.org/pdf/2601.10547">論文</a>
     <br>
     <a href="https://huggingface.co/HeartMuLa/HeartMuLa-oss-3B-happy-new-year">HeartMuLa-oss-3B-happy-new-year 🤗</a> &nbsp;|&nbsp; <a href="https://modelscope.cn/models/HeartMuLa/HeartMuLa-oss-3B-happy-new-year">HeartMuLa-oss-3B-happy-new-year <picture>
         <source srcset="./assets/badge.svg" media="(prefers-color-scheme: dark)">
         <img src="./assets/badge.svg" width="20px">
     </picture></a>
     <br>
-    
-    
 </p>
 
 ---
 
-## 🆕 v0.2.0 — Gradio UI + Multi-provider LLM Integration
+## 🆕 v0.2.0 — Gradio 網頁介面 ＋ 多服務 LLM 整合
 
-This fork adds a **one-click Gradio web UI** that connects AI lyrics/style generation to local GPU music generation:
+本版本新增**一鍵啟動的 Gradio 網頁介面**，將 AI 歌詞／曲風／樂器生成與本地 GPU 音樂生成串接成完整流程：
 
-| Feature | Detail |
+| 功能 | 說明 |
 |---|---|
-| 🎵 LLM lyrics + style + instruments | Mistral AI / Groq / Google AI Studio |
-| 🔌 Zero-URL setup | API base URLs pre-configured, paste Key only |
-| 📋 Model selector | Auto-fetches available models after connecting |
-| 🖥️ Local GPU | RTX 5060 Ti 16 GB (Blackwell, CUDA 12.8) optimized |
-| 🐍 Isolated env | Dedicated conda environment (`heartmula`) |
+| 🎵 AI 生成歌詞＋曲風＋樂器 | 支援 Mistral AI / Groq / Google AI Studio |
+| 🔌 免輸入網址 | API 連線網址已預先設定，只需貼上 API Key |
+| 📋 模型下拉選單 | 連線後自動取得可用模型清單，點選即可使用 |
+| 🖥️ 本地 GPU 推理 | 針對 RTX 5060 Ti 16GB（Blackwell，CUDA 12.8）最佳化 |
+| 🐍 獨立環境 | 專屬 conda 環境（`heartmula`），不干擾其他專案 |
 
-**Quick start:**
+**快速開始：**
 ```bash
-# 1. Create conda environment
+# 1. 建立 conda 環境
 conda env create -f environment.yml
 conda activate heartmula
 
-# 2. Download model checkpoints
+# 2. 下載模型檔案（約 12 GB）
 hf download --local-dir './ckpt' 'HeartMuLa/HeartMuLaGen'
 hf download --local-dir './ckpt/HeartMuLa-oss-3B' 'HeartMuLa/HeartMuLa-oss-3B-happy-new-year'
 hf download --local-dir './ckpt/HeartCodec-oss' HeartMuLa/HeartCodec-oss-20260123
 
-# 3. Launch UI (Windows)
+# 3. 啟動介面（Windows）
 run.bat
-# or: python app.py
+# 或直接執行：python app.py
 ```
 
 ---
 
-# HeartMuLa: A Family of Open Sourced Music Foundation Models
+# HeartMuLa：開源音樂基礎模型家族
 
-HeartMuLa is a family of open sourced music foundation models including: 
-1. HeartMuLa: a music language model that generates music conditioned on lyrics and tags with multilingual support covering almost all languages.
-2. HeartCodec: a 12.5 hz music codec with high reconstruction fidelity;
-3. HeartTranscriptor: a whisper-based model specifically tuned for lyrics transcription; Check [this page](./examples/README.md) for its usage.
-4. HeartCLAP: an audio–text alignment model that establishes a unified embedding space for music descriptions and cross-modal retrieval.
+HeartMuLa 是一系列開源音樂基礎模型，包含以下元件：
+
+1. **HeartMuLa**：音樂語言模型，根據歌詞與風格標籤生成音樂，支援幾乎所有語言的多語系輸入。
+2. **HeartCodec**：12.5 Hz 高保真音樂編解碼器。
+3. **HeartTranscriptor**：基於 Whisper 微調的歌詞轉錄模型，詳見[使用說明](./examples/README.md)。
+4. **HeartCLAP**：音訊與文字對齊模型，建立音樂描述與跨模態檢索的統一嵌入空間。
+
 ---
 
+以下為 oss-3B 版本與其他基準模型的實驗結果比較：
 
-Below shows the experiment result of our oss-3B version compared with other baselines.
 <p align="center">
     <picture>
         <source srcset="./assets/exp-new.png" media="(prefers-color-scheme: dark)">
         <img src="./assets/exp-new.png" width="90%">
     </picture>
-    
 </p>
 
 ---
 
-## 🔥 Highlight
+## 🔥 亮點
 
-Our latest internal version of HeartMuLa-7B achieves **comparable performance with Suno** in terms of musicality, fidelity and controllability. 
+最新內部版本 HeartMuLa-7B 在音樂性、保真度與可控性方面已達到**與 Suno 相當的水準**。
 
-## 📰 News
-Join on Discord! [<img alt="join discord" src="https://img.shields.io/discord/842440537755353128?color=%237289da&logo=discord"/>](https://discord.gg/rkC4VmpH)
+## 📰 最新消息
+加入 Discord！[<img alt="加入 discord" src="https://img.shields.io/discord/842440537755353128?color=%237289da&logo=discord"/>](https://discord.gg/rkC4VmpH)
 
-- 🚀 **10 Apr. 2026**
+- 🚀 **2026 年 4 月 10 日**
 
-  We launched online demo spaces on [Hugging Face](https://huggingface.co/spaces/HeartMuLa/heartmula) and [ModelScope](https://www.modelscope.cn/studios/HeartMuLa/heartmula/).
+  在 [Hugging Face](https://huggingface.co/spaces/HeartMuLa/heartmula) 與 [ModelScope](https://www.modelscope.cn/studios/HeartMuLa/heartmula/) 上線線上展示空間。
 
-- 🚀 **13 Feb. 2026**
+- 🚀 **2026 年 2 月 13 日**
 
-  We released our **HeartMuLa-oss-3B-happy-new-year** version. This version is currently the best open-sourced model in terms of lyrics controllability and music quality. We recommend using **HeartMuLa-oss-3B-happy-new-year** and **HeartCodec-oss-20260123** for music generation.
+  發布 **HeartMuLa-oss-3B-happy-new-year** 版本。此版本目前在歌詞可控性與音樂品質方面為最佳開源模型。推薦搭配 **HeartMuLa-oss-3B-happy-new-year** 與 **HeartCodec-oss-20260123** 進行音樂生成。
 
-- ⚖️ **03 Feb. 2026**
+- ⚖️ **2026 年 2 月 3 日**
 
-  We have released our [HeartMuLa-Benchmark](https://modelscope.cn/datasets/HeartMuLa/HeartMuLa-Benchmark) (referred to as **HeartBeats Benchmark** in our paper) as introduced in our [paper](https://arxiv.org/pdf/2601.10547). This benchmark comprises heterogeneous AI-generated lyrics and tags across diverse languages and genres, providing a rigorous and fair evaluation framework.
-  
-- 🚀 **23 Jan. 2026**
+  發布 [HeartMuLa-Benchmark](https://modelscope.cn/datasets/HeartMuLa/HeartMuLa-Benchmark)（論文中稱為 **HeartBeats Benchmark**）。此基準測試集涵蓋多語言、多風格的 AI 生成歌詞與標籤，提供嚴謹公平的評估框架。
 
-    By leveraging Reinforcement Learning, we have continuously refined our model and are proud to officially release **HeartMuLa-RL-oss-3B-20260123**. This version is designed to achieve more precise control over styles and tags. Simultaneously, we are launching **HeartCodec-oss-20260123**, which optimizes audio decoding quality.
+- 🚀 **2026 年 1 月 23 日**
 
-- 🫶 **20 Jan. 2026** 
-    
-    [Benji](https://github.com/benjiyaya) has created a wonderful [ComfyUI custom node](https://github.com/benjiyaya/HeartMuLa_ComfyUI) for HeartMuLa. Thanks Benji!
+  透過強化學習持續優化模型，正式發布 **HeartMuLa-RL-oss-3B-20260123**，可對風格與標籤進行更精確的控制；同步發布 **HeartCodec-oss-20260123**，大幅提升音訊解碼品質。
 
-- ⚖️ **20 Jan. 2026** 
+- 🫶 **2026 年 1 月 20 日**
 
-    License update: We update the license of this repo and all related model weights to **Apache 2.0**.
+  感謝 [Benji](https://github.com/benjiyaya) 為 HeartMuLa 製作了出色的 [ComfyUI 自訂節點](https://github.com/benjiyaya/HeartMuLa_ComfyUI)！
 
-- 🚀 **14 Jan. 2026**  
-    The official release of **HeartTranscriptor-oss** and the first **HeartMuLa-oss-3B** version along with our **HeartCodec-oss**.
+- ⚖️ **2026 年 1 月 20 日**
 
----
-## 🧭 TODOs
+  授權更新：本 repo 及所有相關模型權重的授權已更新為 **Apache 2.0**。
 
-- ⏳ Release scripts for inference acceleration and streaming inference. The current inference speed is around RTF $\approx 1.0$.
-- ⏳ Support **reference audio conditioning**, **fine-grained controllable music generation**, **hot song generation**.
-- ⏳ Release the **HeartMuLa-oss-7B** version.
-- ✅ Release inference code and pretrained checkpoints of  
-  **HeartCodec-oss, HeartMuLa-oss-3B, and HeartTranscriptor-oss**.
+- 🚀 **2026 年 1 月 14 日**
+
+  正式發布 **HeartTranscriptor-oss**、首個 **HeartMuLa-oss-3B** 版本及 **HeartCodec-oss**。
 
 ---
 
-## 🛠️ Local Deployment
+## 🧭 開發計畫
 
-### ⚙️ Environment Setup
+- ⏳ 發布推理加速與串流推理腳本（目前推理速度約 RTF ≈ 1.0）。
+- ⏳ 支援**參考音訊條件生成**、**細粒度可控音樂生成**、**熱門歌曲生成**。
+- ⏳ 發布 **HeartMuLa-oss-7B** 版本。
+- ✅ 已發布 **HeartCodec-oss**、**HeartMuLa-oss-3B** 及 **HeartTranscriptor-oss** 的推理程式碼與預訓練權重。
 
-We recommend using `python=3.10` for local deployment.
+---
 
-Clone this repo and install locally.
+## 🛠️ 本地部署
 
-```
-git clone https://github.com/HeartMuLa/heartlib.git
-cd heartlib
-pip install -e .
-```
+### ⚙️ 方式一：使用 Gradio 網頁介面（推薦）
 
-Download our pretrained checkpoints from huggingface or modelscope using the following command:
+建立獨立 conda 環境並一鍵啟動：
 
-```
-# if you are using huggingface
+```bash
+# 建立環境（首次需幾分鐘）
+conda env create -f environment.yml
+conda activate heartmula
+
+# 下載模型（約 12 GB）
 hf download --local-dir './ckpt' 'HeartMuLa/HeartMuLaGen'
 hf download --local-dir './ckpt/HeartMuLa-oss-3B' 'HeartMuLa/HeartMuLa-oss-3B-happy-new-year'
 hf download --local-dir './ckpt/HeartCodec-oss' HeartMuLa/HeartCodec-oss-20260123
 
+# 啟動（Windows 雙擊即可）
+run.bat
+```
 
-# if you are using modelscope
+### ⚙️ 方式二：傳統命令列安裝
+
+建議使用 `python=3.10`。
+
+```bash
+git clone https://github.com/vincentchiou/heartlib.git
+cd heartlib
+pip install -e .
+```
+
+下載預訓練模型：
+
+```bash
+# 使用 Hugging Face
+hf download --local-dir './ckpt' 'HeartMuLa/HeartMuLaGen'
+hf download --local-dir './ckpt/HeartMuLa-oss-3B' 'HeartMuLa/HeartMuLa-oss-3B-happy-new-year'
+hf download --local-dir './ckpt/HeartCodec-oss' HeartMuLa/HeartCodec-oss-20260123
+
+# 使用 ModelScope
 modelscope download --model 'HeartMuLa/HeartMuLaGen' --local_dir './ckpt'
 modelscope download --model 'HeartMuLa/HeartMuLa-oss-3B-happy-new-year' --local_dir './ckpt/HeartMuLa-oss-3B'
 modelscope download --model 'HeartMuLa/HeartCodec-oss-20260123' --local_dir './ckpt/HeartCodec-oss'
-
 ```
 
-After downloading, the `./ckpt` subfolder should structure like this:
+下載完成後，`./ckpt` 資料夾結構應如下：
+
 ```
 ./ckpt/
 ├── HeartCodec-oss/
@@ -155,46 +170,53 @@ After downloading, the `./ckpt` subfolder should structure like this:
 └── tokenizer.json
 ```
 
+### ▶️ 命令列使用範例
 
-### ▶️ Example Usage
+執行音樂生成：
 
-To generate music, run:
-
-```
+```bash
 python ./examples/run_music_generation.py --model_path=./ckpt --version="3B"
 ```
 
-By default this command will generate a piece of music conditioned on lyrics and tags provided in `./assets` folder. The output music will be saved at `./assets/output.mp3`.
+預設會根據 `./assets` 資料夾中的歌詞與標籤生成音樂，輸出儲存於 `./assets/output.mp3`。
 
-#### FAQs
+#### 常見問題
 
-1. How to specify lyrics and tags?
+**1. 如何指定歌詞與標籤？**
 
-    The model will load lyrics from the txt file `--lyrics` link to (by default `./assets/lyrics.txt`). If you would like to use your own lyrics, just modify the content in `./assets/lyrics.txt`. If you would like to save your lyrics to another path, e.g. `my_awesome_lyrics.txt`, remember to input arguments `--lyrics my_awesome_lyrics.txt`.
+模型會從 `--lyrics` 指定的 txt 檔載入歌詞（預設：`./assets/lyrics.txt`）。如要使用自訂歌詞，直接修改該檔案內容，或指定新路徑：`--lyrics my_awesome_lyrics.txt`。標籤操作方式相同。
 
-    For tags it's basically the same.
+**2. CUDA 顯存不足？**
 
-2. CUDA out of memory?
+若有多張 GPU（例如兩張 4090），可將 HeartMuLa 與 HeartCodec 分別載至不同裝置：
+```bash
+--mula_device cuda:0 --codec_device cuda:1
+```
 
-    If you have multi-GPUs (e.g. 2 4090s), we recommend placing the params of HeartMuLa and HeartCodec separately on different devices. You can do it by typing `--mula_device cuda:0 --codec_device cuda:1`
+若只有單張 GPU，請啟用 Lazy Load：
+```bash
+--lazy_load true
+```
 
-    If you are running on a single GPU, use `--lazy_load true` so that modules will be loaded on demand and deleted once inference completed to save GPU memory.
+**所有參數說明：**
 
-All parameters:
+| 參數 | 預設值 | 說明 |
+|---|---|---|
+| `--model_path` | 必填 | 預訓練模型路徑 |
+| `--lyrics` | `./assets/lyrics.txt` | 歌詞檔路徑 |
+| `--tags` | `./assets/tags.txt` | 標籤檔路徑 |
+| `--save_path` | `./assets/output.mp3` | 輸出音訊路徑 |
+| `--max_audio_length_ms` | `240000` | 最大音樂長度（毫秒） |
+| `--topk` | `50` | Top-K 採樣參數 |
+| `--temperature` | `1.0` | 採樣溫度 |
+| `--cfg_scale` | `1.5` | 分類器自由引導強度 |
+| `--version` | `3B` | 模型版本（`3B` 或 `7B`，7B 尚未發布） |
+| `--mula_device` / `--codec_device` | `cuda` | 各模組載入裝置 |
+| `--mula_dtype` / `--codec_dtype` | `bf16` / `fp32` | 推理精度（HeartCodec 使用 bf16 可能降低音質） |
+| `--lazy_load` | `false` | 按需載入模組以節省顯存 |
 
-- `--model_path` (required): Path to the pretrained model checkpoint
-- `--lyrics`: Path to lyrics file (default: `./assets/lyrics.txt`)
-- `--tags`: Path to tags file (default: `./assets/tags.txt`)
-- `--save_path`: Output audio file path (default: `./assets/output.mp3`)
-- `--max_audio_length_ms`: Maximum audio length in milliseconds (default: 240000)
-- `--topk`: Top-k sampling parameter for generation (default: 50)
-- `--temperature`: Sampling temperature for generation (default: 1.0)
-- `--cfg_scale`: Classifier-free guidance scale (default: 1.5)
-- `--version`: The version of HeartMuLa, choose between [`3B`, `7B`]. (default: `3B`) # `7B` version not released yet.
-- `--mula_device/--codec_device`: The device where params will be placed. Both are set to `cuda` by default. You can use `--mula_device cuda:0 --codec_device cuda:1` to explicitly place different modules to different devices.
-- `--mula_dtype/--codec_dtype`: Inference dtype. By default is `bf16` for HeartMuLa and `fp32` for HeartCodec. Setting `bf16` for HeartCodec may result in the degradation of audio quality.
-- `--lazy_load`: Whether or not to use lazy loading (default: false). If turned on, modules will be loaded on demand to save GPU usage. 
-Recommended format of lyrics and tags:
+**歌詞格式範例：**
+
 ```txt
 [Intro]
 
@@ -238,22 +260,21 @@ Just another day
 Every single day
 ```
 
-Regarding tags, check this [issue](https://github.com/HeartMuLa/heartlib/issues/17) for reference.
-Our different tags are comma-separated without spaces as illustrated below:
+標籤格式（逗號分隔，無空格，全部小寫），可參考[此討論串](https://github.com/HeartMuLa/heartlib/issues/17)：
+
 ```txt
 piano,happy,wedding,synthesizer,romantic
 ```
 
 ---
 
+## ⚖️ 授權
 
-## ⚖️ License
-
-This repository is licensed under the Apache 2.0 License.
+本 repository 採用 Apache 2.0 授權條款。
 
 ---
 
-## 📚 Citation
+## 📚 引用
 
 ```
 @misc{yang2026heartmulafamilyopensourced,
@@ -267,14 +288,14 @@ This repository is licensed under the Apache 2.0 License.
 }
 ```
 
-## 📬 Contact
-If you are interested in HeartMuLa, feel free to reach us at heartmula.ai@gmail.com
+## 📬 聯絡我們
 
-Welcome to join us through [discord](https://discord.gg/BKXF5FgH) or Wechat group.
+對 HeartMuLa 有興趣，歡迎來信：heartmula.ai@gmail.com
 
-Scan the QR code on the left to join our Wechat group. If it expires, feel free to raise an issue to remind us of updating. 
+也可透過 [Discord](https://discord.gg/BKXF5FgH) 或微信群加入我們。
 
-If the number of group members exceeds 200, joining the group via directly scanning the QR code is restricted by WeChat. In this case, scan our team member's QR code on the right and send a request writing **HeartMuLa Group Invite**. We will invite you into the group manually.
+掃描左側 QR Code 加入微信群（若已過期請發 Issue 通知更新）。若群成員超過 200 人，微信限制直接掃碼加群，請掃描右側團隊成員 QR Code，並發送請求文字「**HeartMuLa Group Invite**」，我們將手動邀請您入群。
+
 <p align="center">
     <picture>
         <source srcset="./assets/group_wx.jpeg" media="(prefers-color-scheme: dark)">
