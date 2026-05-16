@@ -48,21 +48,44 @@ Given a music description (in any language), generate TWO things:
    • Write lyrics in the same language as the user's description (or English if ambiguous).
    • All text must be lowercase.
 
-2. TAGS — Comma-separated style, mood, instrument, and vocal descriptors (no spaces, lowercase).
-   • Always include EXACTLY ONE vocal gender tag based on the description:
-     - Use "male_vocal"   if the description mentions 男聲, 男生, 男歌手, male, man, boy, 男, tenor, baritone, or implies a male singer.
-     - Use "female_vocal" if the description mentions 女聲, 女生, 女歌手, female, woman, girl, 女, soprano, or implies a female singer.
-     - Use "male_vocal"   as the DEFAULT when gender is NOT mentioned (do NOT default to female).
-     - Use "choir"        only when explicitly requested (合唱, choir, chorus vocals).
-     - Use "instrumental" only when explicitly stated that there is NO singing.
-   • Also include: genre, tempo feel, mood, main instruments.
-   • Aim for 8–15 tags total.
-   • Vocal style extras (optional): tenor, baritone, soprano, rap, falsetto
+2. TAGS — Based on HeartMuLa's 8 training categories (comma-separated, no spaces, Title Case).
+   Follow these rules STRICTLY:
 
-   Examples:
-   - Description mentions male singer → pop,upbeat,happy,piano,guitar,drums,male_vocal,tenor
-   - Description mentions female singer → pop,sad,slow,piano,strings,female_vocal,soprano
-   - No gender mentioned → pop,upbeat,happy,piano,guitar,drums,male_vocal   ← default to male
+   ① GENRE (mandatory, pick ONE only — multiple genres cause muddy output):
+      Pop, Rock, Electronic, Hiphop, Jazz, Classical, Techno, Trance, Ambient, Folk,
+      Country, R&B, Soul, Indie, Metal, Latin, K-pop, Mandopop, Cantopop
+
+   ② TIMBRE (sound texture, pick one):
+      Soft, Warm, Husky, Bright, Dark, Distorted, Smooth, Raw, Crisp
+
+   ③ GENDER (vocal gender — always include ONE, this is the CRITICAL tag for voice type):
+      • Use "Male"   if description mentions: 男聲/男生/男歌手/male/man/boy/男/tenor/baritone
+      • Use "Female" if description mentions: 女聲/女生/女歌手/female/woman/girl/女/soprano
+      • Use "Male"   as DEFAULT when gender is NOT mentioned — NEVER default to Female
+      • Use "Choir"  only when explicitly requested (合唱/choir)
+      • Omit GENDER tag entirely only when "instrumental" or "no vocals" is specified
+
+   ④ MOOD (emotional vibe, pick one or two):
+      Happy, Sad, Energetic, Joyful, Melancholic, Relaxing, Dark, Romantic, Hopeful,
+      Calm, Nostalgic, Upbeat, Dramatic, Playful, Intense, Peaceful
+
+   ⑤ INSTRUMENT (dominant sounds, pick one to three):
+      Piano, Synthesizer, Acoustic Guitar, Electric Guitar, Bass, Drums, Strings,
+      Violin, Saxophone, Trumpet, Flute, Organ, Keyboard, Cello, Harp
+
+   ⑥ SCENE (listening context, optional):
+      Dance, Workout, Dating, Study, Cinematic, Party, Wedding, Meditation, Night Drive
+
+   ⑦ REGION (cultural influence, optional):
+      K-pop, Latin, Western, Asian
+
+   ⑧ TOPIC (lyrical theme, optional):
+      Love, Summer, Heartbreak, Hope, Youth, Friendship, Longing, Freedom
+
+   Tag format examples:
+   • Male singer, sad pop with piano → Pop, Soft, Male, Melancholic, Piano, Love
+   • Female singer, energetic K-pop  → K-pop, Bright, Female, Energetic, Synthesizer, Drums
+   • No gender mentioned (DEFAULT)   → Pop, Warm, Male, Happy, Guitar, Piano
 
 Output EXACTLY this format (no preamble, no extra commentary):
 
@@ -75,7 +98,7 @@ lyrics line...
 </lyrics>
 
 <tags>
-genre,mood,tempo,instrument1,instrument2,vocal_gender_tag,...
+Genre, Timbre, Gender, Mood, Instrument, ...
 </tags>
 """
 
