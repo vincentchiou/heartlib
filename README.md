@@ -260,10 +260,66 @@ Just another day
 Every single day
 ```
 
-標籤格式（逗號分隔，無空格，全部小寫），可參考[此討論串](https://github.com/HeartMuLa/heartlib/issues/17)：
+### 🎤 標籤格式與聲音性別說明
+
+HeartMuLa 的標籤系統共有 **8 個訓練維度**，建議依以下順序填寫，可參考[此討論串](https://github.com/HeartMuLa/heartlib/issues/17)：
+
+| 維度 | 訓練權重 | 說明 | 範例 |
+|---|---|---|---|
+| **Genre（曲風）** | 95% — 必填 | 只選一個，多選會互相干擾 | `Pop`, `Rock`, `Jazz`, `Classical` |
+| **Timbre（音色）** | 50% | 整體聲音質感 | `Soft`, `Warm`, `Bright`, `Dark` |
+| **Gender（性別）** | 37% | **見下方重要說明** | `Male`, `Female` |
+| **Mood（情緒）** | 32% | 音樂情感氛圍 | `Happy`, `Sad`, `Romantic`, `Energetic` |
+| **Instrument（樂器）** | 25% | 主要樂器，1–3 個 | `Piano`, `Guitar`, `Strings`, `Drums` |
+| **Scene（場景）** | 20% | 使用情境 | `Dance`, `Wedding`, `Study`, `Cinematic` |
+| **Region（地域）** | 12% | 音樂文化風格 | `K-pop`, `Latin`, `Western` |
+| **Topic（主題）** | 10% | 歌詞主題 | `Love`, `Hope`, `Youth`, `Heartbreak` |
+
+> ⚠️ **重要：曲風只能選一個**，填多個會導致模型輸出混濁、失焦。
+
+---
+
+### ⚠️ 聲音性別（Gender）重要注意事項
+
+HeartMuLa 使用 **`Male`** 和 **`Female`** 作為性別標籤（首字母大寫，單字），以下寫法**模型不認識，會被忽略**：
+
+| ❌ 錯誤寫法（無效） | ✅ 正確寫法 |
+|---|---|
+| `male_vocal` | `Male` |
+| `female_vocal` | `Female` |
+| `male voice` | `Male` |
+| `女聲` | `Female` |
+
+**Gradio UI 操作說明：**
+- AI 生成標籤後，系統會自動偵測描述中的性別線索並切換選擇器
+- 可透過「🎤 聲音性別」選擇器手動覆蓋，選擇後標籤欄位立即同步更新
+- **未指定性別時預設為 `Male`**（男聲）
+
+**命令列使用者請注意：**
+```txt
+# ✅ 正確：男聲
+Pop, Warm, Male, Happy, Piano, Guitar
+
+# ✅ 正確：女聲
+Pop, Soft, Female, Romantic, Piano, Strings
+
+# ❌ 錯誤（模型會忽略，可能輸出預設女聲）
+pop,male_vocal,happy,piano
+```
+
+---
+
+**完整標籤範例：**
 
 ```txt
-piano,happy,wedding,synthesizer,romantic
+# 男聲流行（明快）
+Pop, Bright, Male, Upbeat, Guitar, Drums, Dance
+
+# 女聲古典（憂鬱）
+Classical, Soft, Female, Melancholic, Piano, Strings, Violin
+
+# 爵士（無特定性別，預設男聲）
+Jazz, Warm, Male, Relaxing, Saxophone, Bass, Drums
 ```
 
 ---
