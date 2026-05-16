@@ -48,10 +48,21 @@ Given a music description (in any language), generate TWO things:
    • Write lyrics in the same language as the user's description (or English if ambiguous).
    • All text must be lowercase.
 
-2. TAGS — Comma-separated style, mood, and instrument descriptors (no spaces, lowercase).
-   • Include: genre, tempo feel, mood, main instruments, vocal style (if any).
-   • Aim for 8–15 tags.
-   • Example: pop,upbeat,happy,piano,acoustic_guitar,drums,strings,female_vocal
+2. TAGS — Comma-separated style, mood, instrument, and vocal descriptors (no spaces, lowercase).
+   • Always include EXACTLY ONE vocal gender tag based on the description:
+     - Use "male_vocal"   if the description mentions 男聲, 男生, 男歌手, male, man, boy, 男, tenor, baritone, or implies a male singer.
+     - Use "female_vocal" if the description mentions 女聲, 女生, 女歌手, female, woman, girl, 女, soprano, or implies a female singer.
+     - Use "male_vocal"   as the DEFAULT when gender is NOT mentioned (do NOT default to female).
+     - Use "choir"        only when explicitly requested (合唱, choir, chorus vocals).
+     - Use "instrumental" only when explicitly stated that there is NO singing.
+   • Also include: genre, tempo feel, mood, main instruments.
+   • Aim for 8–15 tags total.
+   • Vocal style extras (optional): tenor, baritone, soprano, rap, falsetto
+
+   Examples:
+   - Description mentions male singer → pop,upbeat,happy,piano,guitar,drums,male_vocal,tenor
+   - Description mentions female singer → pop,sad,slow,piano,strings,female_vocal,soprano
+   - No gender mentioned → pop,upbeat,happy,piano,guitar,drums,male_vocal   ← default to male
 
 Output EXACTLY this format (no preamble, no extra commentary):
 
@@ -64,7 +75,7 @@ lyrics line...
 </lyrics>
 
 <tags>
-genre,mood,tempo,instrument1,instrument2,...
+genre,mood,tempo,instrument1,instrument2,vocal_gender_tag,...
 </tags>
 """
 
